@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wing Gal — Sisterhood. On demand.</title>
+<style>
+  /* ---- Self-hosted brand fonts ---- */
+  @font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;src:url("fonts/Inter-VariableFont_opsz_wght.ttf") format("truetype-variations");}
+  @font-face{font-family:"Inter";font-style:italic;font-weight:100 900;font-display:swap;src:url("fonts/Inter-Italic-VariableFont_opsz_wght.ttf") format("truetype-variations");}
+  @font-face{font-family:"Cormorant Garamond";font-style:normal;font-weight:300 700;font-display:swap;src:url("fonts/CormorantGaramond-VariableFont_wght.ttf") format("truetype-variations");}
+  @font-face{font-family:"Cormorant Garamond";font-style:italic;font-weight:300 700;font-display:swap;src:url("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype-variations");}
+
+  :root{
+    --cream:#F5CBAF; --olive:#5D5821; --coral:#F09457; --sand:#D6CBB6; --velvet:#B9A7AC;
+    --bubble:#F8AFB8; --negroni:#FE4213; --ink:#3A3520; --bone:#FAEAD8; --paper:#EFD9C2;
+    --serif:"Cormorant Garamond",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--coral);}
+  h1,h2,h3{font-family:var(--serif);font-weight:500;letter-spacing:-1px;margin:0;line-height:1.04;}
+  h1{font-size:clamp(48px,7vw,96px);letter-spacing:-2px;}
+  h2{font-size:clamp(34px,4.6vw,60px);letter-spacing:-1.5px;}
+  em{font-style:italic;color:var(--coral);}
+  p{line-height:1.55;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+
+  .btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-size:15px;font-weight:600;
+    padding:16px 28px;border-radius:999px;border:none;cursor:pointer;transition:filter .15s,transform .1s,background .2s,color .2s;white-space:nowrap;}
+  .btn:active{transform:scale(.98);}
+  .btn-primary{background:var(--olive);color:#fff;}
+  .btn-primary:hover{filter:brightness(1.1);}
+  .btn-cream{background:var(--cream);color:var(--olive);}
+  .btn-cream:hover{filter:brightness(1.04);}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--cream);}
+  .btn-light{background:rgba(245,203,175,.16);color:var(--cream);border:1.5px solid rgba(245,203,175,.45);}
+  .btn-light:hover{background:rgba(245,203,175,.26);}
+  .btn-coral{background:var(--coral);color:var(--ink);}
+  .btn-coral:hover{filter:brightness(1.06);}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky;top:0;z-index:60;background:rgba(245,203,175,.8);backdrop-filter:blur(16px);border-bottom:1px solid rgba(58,53,32,.08);transition:background .3s;}
+  nav .row{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand-img{height:34px;width:auto;display:block;}
+  .navlinks{display:flex;gap:32px;font-size:14px;font-weight:500;}
+  .navlinks a{position:relative;padding:4px 0;}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--coral);transition:width .25s;}
+  .navlinks a:hover{color:var(--coral);}
+  .navlinks a:hover::after{width:100%;}
+  .nav-cta{display:flex;align-items:center;gap:14px;}
+
+  /* ---------- HERO STACK ---------- */
+  .hero-stack{position:relative;}
+  .hero-panel{display:none;}
+  body[data-hero="a"] #hero-a{display:block;}
+  body[data-hero="b"] #hero-b{display:flex;}
+  body[data-hero="c"] #hero-c{display:block;}
+
+  /* HERO A — editorial split */
+  #hero-a{padding:64px 0 96px;}
+  #hero-a .grid{display:grid;grid-template-columns:1.12fr .88fr;gap:48px;align-items:center;}
+  #hero-a h1{margin:18px 0 26px;}
+  #hero-a .lede{font-size:19px;max-width:480px;color:rgba(58,53,32,.78);margin-bottom:34px;}
+  #hero-a .cta-row{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  #hero-a .note{font-size:13px;color:rgba(58,53,32,.62);margin-top:22px;display:flex;align-items:center;gap:9px;}
+  .collage-stage{position:relative;height:460px;border-radius:30px;
+    background:var(--bone);background-image:url("assets/img/collage-bg.png");
+    background-size:cover;background-position:center;
+    border:1px solid var(--sand);box-shadow:0 30px 60px -36px rgba(58,53,32,.4);overflow:hidden;}
+  .collage-stage::before{content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(135deg, rgba(245,203,175,.42) 0%, rgba(250,234,216,.28) 50%, rgba(248,175,184,.34) 100%);}
+  .collage-stage .grain{position:absolute;inset:0;z-index:1;opacity:.45;
+    background-image:radial-gradient(rgba(58,53,32,.07) 1px,transparent 1px);background-size:11px 11px;}
+  .collage-stage .live-chip,.collage-stage .ic{z-index:2;}
+  .collage-stage .ic{position:absolute;filter:drop-shadow(0 12px 22px rgba(58,53,32,.18));}
+  .ic.big{top:54px;left:64px;}
+  .ic.tl{top:30px;right:54px;}
+  .ic.bl{bottom:42px;left:38px;}
+  .ic.br{bottom:64px;right:46px;}
+  .ic.mid{top:212px;left:50%;transform:translateX(-30%);}
+  .live-chip{position:absolute;top:24px;left:24px;background:#fff;border:1px solid var(--sand);border-radius:999px;
+    padding:8px 14px 8px 12px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;box-shadow:0 8px 20px -12px rgba(58,53,32,.4);}
+  .live-dot{width:8px;height:8px;border-radius:999px;background:#2f9c6e;box-shadow:0 0 0 0 rgba(47,156,110,.5);animation:pulseRing 2.4s infinite;}
+
+  /* HERO B — full-bleed image */
+  #hero-b{position:relative;min-height:88vh;align-items:flex-end;overflow:hidden;background:var(--ink);}
+  #hero-b .bg{position:absolute;inset:0;background-size:cover;background-position:center 38%;}
+  #hero-b .bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(58,53,32,.18) 0%,rgba(58,53,32,.05) 40%,rgba(58,53,32,.78) 100%);}
+  #hero-b .inner{position:relative;z-index:2;color:var(--cream);padding:0 0 84px;width:100%;}
+  #hero-b h1{color:var(--cream);max-width:13ch;margin:18px 0 24px;}
+  #hero-b h1 em{color:var(--coral);}
+  #hero-b .lede{font-size:19px;max-width:440px;color:rgba(245,203,175,.86);margin-bottom:32px;}
+  #hero-b .topbar{position:absolute;top:36px;left:0;right:0;z-index:2;}
+  #hero-b .topbar .wrap{display:flex;align-items:center;gap:14px;color:rgba(245,203,175,.9);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+  #hero-b .topbar .rule{flex:1;height:1px;background:rgba(245,203,175,.3);}
+
+  /* HERO C — type-forward masthead */
+  #hero-c{padding:40px 0 70px;position:relative;}
+  #hero-c .masthead-rule{display:flex;align-items:center;gap:18px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ink);border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);padding:13px 0;}
+  #hero-c .masthead-rule .sp{flex:1;}
+  #hero-c .big-type{position:relative;margin:56px 0 30px;}
+  #hero-c .big-type h1{font-size:clamp(72px,15vw,210px);line-height:.86;letter-spacing:-4px;}
+  #hero-c .big-type h1 .l2{display:block;padding-left:.12em;}
+  #hero-c .sticker{position:absolute;filter:drop-shadow(0 12px 22px rgba(58,53,32,.2));z-index:3;}
+  #hero-c .s1{top:-18px;right:8%;}
+  #hero-c .s2{bottom:6px;left:42%;}
+  #hero-c .s3{top:34%;right:2%;}
+  #hero-c .bottom{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end;margin-top:18px;}
+  #hero-c .lede{font-size:20px;max-width:520px;color:rgba(58,53,32,.78);}
+  #hero-c .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:flex-end;}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{background:var(--olive);color:var(--cream);padding:20px 0;overflow:hidden;border-top:1px solid rgba(58,53,32,.2);}
+  .marquee .track{display:flex;gap:54px;white-space:nowrap;width:max-content;animation:scrollX 28s linear infinite;}
+  .marquee span{font-family:var(--serif);font-size:30px;font-style:italic;display:inline-flex;align-items:center;gap:54px;}
+  .marquee .dot{font-style:normal;color:var(--coral);font-size:14px;}
+  @keyframes scrollX{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ---------- SECTION SHELLS ---------- */
+  section{padding:108px 0;}
+  .sec-dark{background:var(--olive);color:var(--cream);}
+  .sec-dark .eyebrow{color:var(--coral);}
+  .sec-velvet{background:var(--velvet);}
+  .sec-bone{background:var(--bone);}
+  .sec-sand{background:var(--sand);}
+  .sec-pink{background:var(--bubble);}
+  .sec-pink .eyebrow{color:var(--coral);}
+  .center{text-align:center;}
+  .center .eyebrow{display:block;margin-bottom:16px;}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease-out,transform .7s ease-out;}
+  .reveal.in{opacity:1;transform:none;}
+  .reveal.d1{transition-delay:.08s;}
+  .reveal.d2{transition-delay:.16s;}
+  .reveal.d3{transition-delay:.24s;}
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto h2{max-width:920px;margin:18px auto 0;}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:780px;margin:54px auto 0;}
+  .compare .col{background:rgba(245,203,175,.07);border:1px solid rgba(245,203,175,.18);border-radius:20px;padding:30px;}
+  .compare .x{font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--velvet);margin-bottom:12px;}
+  .compare .col.them .x{color:var(--bubble);}
+  .compare .big{font-family:var(--serif);font-size:27px;line-height:1.16;color:var(--cream);}
+
+  /* ---------- HOW IT WORKS ---------- */
+  .how-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:14px;}
+  .how-head .lead{max-width:360px;color:rgba(58,53,32,.7);font-size:16px;}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;}
+  .step{background:#fff;border:1px solid var(--sand);border-radius:24px;padding:30px 28px;display:flex;flex-direction:column;min-height:330px;
+    transition:transform .25s,box-shadow .25s;}
+  .step:hover{transform:translateY(-6px);box-shadow:0 26px 48px -30px rgba(58,53,32,.5);}
+  .step .ph{height:74px;display:flex;align-items:flex-end;}
+  .step .num{font-family:var(--serif);font-size:15px;color:var(--coral);font-weight:600;letter-spacing:2px;margin-top:18px;}
+  .step h3{font-size:28px;margin:10px 0 10px;}
+  .step p{font-size:15px;color:rgba(58,53,32,.72);margin:0;}
+  .step .tagline{margin-top:auto;padding-top:18px;font-size:13px;font-weight:600;color:var(--olive);display:flex;align-items:center;gap:7px;}
+
+  /* ---------- APP DEMO ---------- */
+  .demo{display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center;}
+  .demo .copy{max-width:460px;}
+  .demo .copy h2{margin:16px 0 18px;}
+  .demo .copy p{font-size:17px;color:rgba(245,203,175,.82);margin-bottom:26px;}
+  .demo-feature{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;}
+  .demo-feature .fi{flex-shrink:0;width:38px;height:38px;border-radius:11px;background:rgba(245,203,175,.12);border:1px solid rgba(245,203,175,.22);display:flex;align-items:center;justify-content:center;}
+  .demo-feature .ft{font-size:15px;}
+  .demo-feature .ft b{display:block;font-size:15px;color:var(--cream);margin-bottom:2px;}
+  .demo-feature .ft span{color:rgba(245,203,175,.72);}
+  .demo .phone-col{display:flex;flex-direction:column;align-items:center;gap:18px;}
+  .demo-controls{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;max-width:340px;}
+  .demo-controls button{font-family:inherit;font-size:12px;font-weight:600;padding:8px 14px;border-radius:999px;
+    border:1px solid rgba(245,203,175,.4);background:transparent;color:var(--cream);cursor:pointer;transition:all .15s;}
+  .demo-controls button.on{background:var(--cream);color:var(--olive);border-color:var(--cream);}
+  .demo-controls button:hover:not(.on){background:rgba(245,203,175,.14);}
+  .demo-hint{font-size:12px;color:rgba(245,203,175,.6);display:flex;align-items:center;gap:7px;}
+  .demo-hint .live-dot{width:7px;height:7px;}
+
+  /* ---------- TIERS ---------- */
+  .tiers-head{text-align:center;margin-bottom:8px;}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px;align-items:stretch;}
+  .tier{background:#fff;border:1px solid var(--sand);border-radius:24px;padding:32px 28px;display:flex;flex-direction:column;position:relative;transition:transform .25s,box-shadow .25s;}
+  .tier:hover{transform:translateY(-6px);box-shadow:0 28px 52px -30px rgba(58,53,32,.5);}
+  .tier.feat{border-color:var(--coral);box-shadow:0 22px 46px -26px rgba(58,53,32,.45);}
+  .tier .badge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;padding:5px 12px;border-radius:999px;margin-bottom:20px;}
+  .tier .feat-flag{position:absolute;top:-12px;right:24px;background:var(--coral);color:#fff;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:6px 13px;border-radius:999px;}
+  .tier h3{font-size:31px;}
+  .tier .price{font-family:var(--serif);font-size:42px;font-weight:600;margin:12px 0 4px;}
+  .tier .price span{font-family:var(--sans);font-size:14px;font-weight:500;color:rgba(58,53,32,.6);}
+  .tier .blurb{font-size:14px;color:rgba(58,53,32,.7);margin:0 0 4px;}
+  .tier ul{list-style:none;padding:0;margin:20px 0 26px;display:flex;flex-direction:column;gap:12px;}
+  .tier li{font-size:14px;display:flex;gap:10px;align-items:flex-start;color:rgba(58,53,32,.84);}
+  .tier li b{color:var(--olive);}
+  .tier .pick{margin-top:auto;}
+
+  /* ---------- FOUNDER ---------- */
+  .founder{display:grid;grid-template-columns:.82fr 1.18fr;gap:56px;align-items:center;}
+  .founder .portrait{aspect-ratio:4/5;border-radius:26px;position:relative;overflow:hidden;border:1px solid var(--sand);box-shadow:0 30px 60px -36px rgba(58,53,32,.5);}
+  .founder .portrait img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .founder .portrait .sticker{position:absolute;top:18px;right:18px;}
+  .founder .portrait .tag{position:absolute;left:18px;bottom:18px;background:rgba(250,234,216,.94);border-radius:13px;padding:11px 15px;font-size:13px;backdrop-filter:blur(6px);}
+  .founder .portrait .tag b{font-family:var(--serif);font-size:18px;font-weight:600;display:block;}
+  .founder blockquote{margin:0;font-family:var(--serif);font-size:clamp(27px,3vw,40px);line-height:1.22;letter-spacing:-.5px;}
+  .founder .sig{margin-top:24px;font-size:15px;color:rgba(58,53,32,.72);max-width:500px;}
+  .pull{color:var(--coral);font-style:italic;}
+
+  /* ---------- SAFETY ---------- */
+  .safety .s-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:50px;}
+  .safety .item{background:rgba(245,203,175,.08);border:1px solid rgba(245,203,175,.2);border-radius:20px;padding:26px;}
+  .safety .item h3{font-size:21px;margin:16px 0 9px;color:var(--cream);}
+  .safety .item p{font-size:13.5px;color:rgba(245,203,175,.76);line-height:1.5;margin:0;}
+
+  /* ---------- MARKET STATS ---------- */
+  .stats h2{max-width:880px;}
+  .stat-rows{margin-top:46px;border-top:1.5px solid rgba(58,53,32,.22);}
+  .stat-row{display:grid;grid-template-columns:300px 1fr;gap:30px;align-items:baseline;
+    padding:34px 0;border-bottom:1.5px solid rgba(58,53,32,.22);}
+  .stat-row .num{font-family:var(--serif);font-size:clamp(46px,5.6vw,82px);font-weight:600;
+    color:var(--olive);line-height:.9;letter-spacing:-1.5px;}
+  .stat-row .lab{font-size:clamp(18px,2.1vw,25px);color:var(--ink);line-height:1.2;}
+  .stat-row .src{font-size:14px;color:rgba(58,53,32,.55);margin-top:8px;}
+
+  /* ---------- CTA BANDS (companies / wing woman) ---------- */
+  .cta-band .cta-grid{display:grid;grid-template-columns:1.45fr .55fr;gap:54px;align-items:center;}
+  .cta-band .cta-grid.reverse{grid-template-columns:.55fr 1.45fr;}
+  .cta-band .copy{max-width:600px;}
+  .cta-band h2{margin:16px 0 0;}
+  .cta-band .band-sub{font-family:var(--serif);font-style:italic;font-size:clamp(21px,2.5vw,30px);line-height:1.25;margin:16px 0 0;opacity:.92;}
+  .cta-band .body{font-size:17px;line-height:1.56;margin:22px 0 32px;max-width:540px;}
+  .cta-band.sec-dark .body{color:rgba(245,203,175,.82);}
+  .cta-band.sec-pink .body{color:rgba(58,53,32,.78);}
+  .cta-icon{display:flex;justify-content:center;filter:drop-shadow(0 16px 26px rgba(58,53,32,.22));}
+
+  /* ---------- WAITLIST ---------- */
+  .waitlist{text-align:center;}
+  .waitlist h2{margin:16px auto 0;max-width:700px;}
+  .waitlist .sub{font-size:18px;color:rgba(58,53,32,.72);max-width:460px;margin:18px auto 0;}
+  .launch-note{display:inline-flex;align-items:center;gap:10px;margin:20px auto 0;font-size:15px;color:rgba(58,53,32,.78);}
+  .launch-note .diamond{width:11px;height:11px;background:var(--coral);transform:rotate(45deg);border-radius:2px;flex-shrink:0;}
+  .wl-form{display:flex;gap:10px;max-width:560px;margin:30px auto 0;}
+  .wl-form input{flex:1;padding:16px 22px;border-radius:999px;border:1.5px solid var(--sand);background:#fff;font:inherit;font-size:15px;outline:none;color:var(--ink);transition:border-color .2s,box-shadow .2s;}
+  .wl-form .wl-city{padding:16px 20px;border-radius:999px;border:1.5px solid var(--sand);background:#fff;font:inherit;font-size:15px;color:var(--ink);outline:none;cursor:pointer;transition:border-color .2s,box-shadow .2s;}
+  .wl-form .wl-city:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(240,148,87,.16);}
+  .wl-form input:focus{border-color:var(--coral);box-shadow:0 0 0 4px rgba(240,148,87,.16);}
+  .wl-form input.err{border-color:var(--negroni);box-shadow:0 0 0 4px rgba(254,66,19,.12);}
+  .wl-msg{font-size:13px;margin-top:16px;min-height:18px;color:rgba(58,53,32,.6);transition:color .2s;}
+  .wl-msg.error{color:var(--negroni);}
+  .wl-success{max-width:470px;margin:30px auto 0;background:#fff;border:1px solid var(--sand);border-radius:20px;padding:30px;display:none;animation:fadeUp .5s ease-out both;}
+  .wl-success.show{display:block;}
+  .wl-success .chk{width:52px;height:52px;border-radius:999px;background:var(--olive);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .wl-success h3{font-size:26px;margin-bottom:8px;}
+  .wl-success p{font-size:15px;color:rgba(58,53,32,.72);margin:0;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--ink);color:var(--cream);padding:72px 0 44px;}
+  footer .top{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;}
+  footer .brand-img{height:40px;filter:brightness(0) invert(1);opacity:.95;}
+  footer .blurb{font-size:14px;color:rgba(245,203,175,.7);max-width:300px;margin-top:16px;line-height:1.55;}
+  footer .cols{display:flex;gap:72px;flex-wrap:wrap;}
+  footer .col h4{font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin:0 0 16px;}
+  footer .col a{display:block;font-size:14px;color:rgba(245,203,175,.8);margin-bottom:11px;transition:color .15s;}
+  footer .col a:hover{color:#fff;}
+  footer .legal{margin-top:54px;font-size:12px;color:rgba(245,203,175,.5);border-top:1px solid rgba(245,203,175,.15);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  /* ---------- HERO SWITCHER (design-review control) ---------- */
+  .hero-switch{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:200;
+    background:var(--ink);color:var(--cream);border-radius:999px;padding:7px 9px 7px 16px;
+    display:flex;align-items:center;gap:12px;box-shadow:0 18px 40px -16px rgba(58,53,32,.7);font-size:12px;}
+  .hero-switch .lab{font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:10px;color:rgba(245,203,175,.7);}
+  .hero-switch .opts{display:flex;gap:4px;}
+  .hero-switch button{font-family:inherit;font-size:12px;font-weight:600;width:34px;height:32px;border-radius:999px;border:none;background:transparent;color:var(--cream);cursor:pointer;transition:all .15s;}
+  .hero-switch button.on{background:var(--coral);color:#fff;}
+  .hero-switch button:hover:not(.on){background:rgba(245,203,175,.16);}
+  .hero-switch .name{font-style:italic;font-family:var(--serif);font-size:15px;min-width:118px;}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+  @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(47,156,110,.5);}70%{box-shadow:0 0 0 9px rgba(47,156,110,0);}100%{box-shadow:0 0 0 0 rgba(47,156,110,0);}}
+
+  @media(max-width:920px){
+    .wrap{padding:0 24px;}
+    #hero-a .grid,.demo,.founder{grid-template-columns:1fr;gap:36px;}
+    .collage-stage{height:380px;}
+    .steps,.tiers,.safety .s-grid,.compare{grid-template-columns:1fr;}
+    .safety .s-grid{grid-template-columns:1fr 1fr;}
+    .cta-band .cta-grid,.cta-band .cta-grid.reverse{grid-template-columns:1fr;gap:30px;}
+    .cta-band .cta-grid.reverse .cta-icon{order:-1;}
+    .stat-row{grid-template-columns:1fr;gap:4px;}
+    .navlinks{display:none;}
+    #hero-c .bottom{grid-template-columns:1fr;}
+    #hero-c .cta-row{justify-content:flex-start;}
+    .demo .phone-col{order:-1;}
+  }
+  @media(max-width:560px){
+    .nav-cta .btn-ghost{display:none;}
+    .safety .s-grid{grid-template-columns:1fr;}
+    .wl-form{flex-direction:column;}
+    .wl-form .wl-city{width:100%;}
+  }
+</style>
+</head>
+<body data-hero="a">
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="wrap row">
+    <a href="#top" class="brand" aria-label="Wing Gal home"><img src="assets/wing-gal-wordmark-tight.png" alt="Wing Gal" class="brand-img"></a>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#app">The app</a>
+      <a href="#tiers">Wing Women</a>
+      <a href="#companies">For companies</a>
+      <a href="#founder">Our story</a>
+      <a href="#safety">Safety</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#how" class="btn btn-ghost" style="padding:11px 20px;font-size:14px;">How it works</a>
+      <a href="#waitlist" class="btn btn-primary" style="padding:12px 22px;font-size:14px;">Join the waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<a id="top"></a>
+<div class="hero-stack">
+
+  <!-- ===== HERO A — editorial split ===== -->
+  <header class="hero-panel" id="hero-a" data-screen-label="Hero A — Editorial split">
+    <div class="wrap grid">
+      <div>
+        <div class="eyebrow reveal">Now boarding in Oakland</div>
+        <h1 class="reveal d1">Don't <em>wing it</em><br>alone.</h1>
+        <p class="lede reveal d2">A real, trained woman — vetted, background-checked, certified — who shows up beside you within minutes. Not a dating app. Not a chatbot. A human being, in your corner.</p>
+        <div class="cta-row reveal d3">
+          <a href="#waitlist" class="btn btn-primary">Find your Wing Woman <span data-ico="arrowRight"></span></a>
+          <a href="#how" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="note reveal d3"><span data-collage="shieldRose" data-size="24"></span> Every Wing Woman is background-checked, ID-verified, and certified.</div>
+      </div>
+      <div class="collage-stage reveal d2">
+        <div class="grain"></div>
+        <div class="live-chip"><span class="live-dot"></span> 4 Wing Women available now</div>
+        <div class="ic big"><span data-collage="wing" data-size="190"></span></div>
+        <div class="ic tl"><span data-collage="martini" data-size="82"></span></div>
+        <div class="ic bl"><span data-collage="rose" data-size="92"></span></div>
+        <div class="ic br"><span data-collage="disco" data-size="76"></span></div>
+        <div class="ic mid"><span data-collage="sparkles" data-size="58"></span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO B — full-bleed image ===== -->
+  <header class="hero-panel" id="hero-b" data-screen-label="Hero B — Full-bleed image">
+    <div class="bg" style="background-image:url('assets/img/portrait-shoreline.jpg');"></div>
+    <div class="topbar">
+      <div class="wrap">
+        <span>Wing Gal™</span><span class="rule"></span><span>Sisterhood, formalized</span><span class="rule"></span><span>Est. 2026 · Oakland</span>
+      </div>
+    </div>
+    <div class="inner">
+      <div class="wrap">
+        <div class="eyebrow reveal" style="color:var(--coral);">Who's with you tonight?</div>
+        <h1 class="reveal d1">Never walk in <em>alone</em> again.</h1>
+        <p class="lede reveal d2">Book a real, vetted woman who shows up beside you — for the night out, the solo trip, the new city, the first time back out. Within minutes.</p>
+        <div class="cta-row reveal d3" style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="#waitlist" class="btn btn-cream">Find your Wing Woman <span data-ico="arrowRight"></span></a>
+          <a href="#how" class="btn btn-light">See how it works</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO C — type-forward masthead ===== -->
+  <header class="hero-panel" id="hero-c" data-screen-label="Hero C — Type-forward masthead">
+    <div class="wrap">
+      <div class="masthead-rule reveal">
+        <span>Wing Gal™</span><span class="sp"></span><span>Not a match · Not an alert · Not an escort</span><span class="sp"></span><span>Oakland, CA</span>
+      </div>
+      <div class="big-type">
+        <div class="sticker s1 reveal d1"><span data-collage="rose" data-size="92"></span></div>
+        <div class="sticker s2 reveal d2"><span data-collage="martini" data-size="74"></span></div>
+        <div class="sticker s3 reveal d3"><span data-collage="disco" data-size="70"></span></div>
+        <h1 class="reveal">Don't <em>wing it</em><span class="l2">alone.</span></h1>
+      </div>
+      <div class="bottom">
+        <p class="lede reveal d1">Sisterhood has always been the most powerful force in a woman's life. We just formalized it, vetted it, and put it on demand.</p>
+        <div class="cta-row reveal d2">
+          <a href="#how" class="btn btn-ghost">How it works</a>
+          <a href="#waitlist" class="btn btn-primary">Join the waitlist <span data-ico="arrowRight"></span></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+</div>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Not a match.<span class="dot">●</span>Not an alert.<span class="dot">●</span>Not an escort.<span class="dot">●</span>A real woman, beside you.<span class="dot">●</span></span>
+    <span>Not a match.<span class="dot">●</span>Not an alert.<span class="dot">●</span>Not an escort.<span class="dot">●</span>A real woman, beside you.<span class="dot">●</span></span>
+  </div>
+</div>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="sec-dark manifesto center" id="problem">
+  <div class="wrap">
+    <span class="eyebrow reveal">The problem has a name</span>
+    <h2 class="reveal d1">You've canceled the bar, the dinner, the trip — because the friend who was supposed to come fell through. <em>Not anymore.</em></h2>
+    <div class="compare">
+      <div class="col them reveal d2">
+        <div class="x">Dating apps</div>
+        <div class="big">They'll match you.<br>They will not <em>show up.</em></div>
+      </div>
+      <div class="col reveal d3">
+        <div class="x">Wing Gal</div>
+        <div class="big">A real woman, beside you, <em>within minutes.</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARKET STATS ============ -->
+<section class="sec-sand stats" id="market" data-screen-label="Market stats">
+  <div class="wrap">
+    <span class="eyebrow reveal">By the numbers</span>
+    <h2 class="reveal d1" style="margin-top:14px;">The market is <em>already here.</em><br>Nobody's serving it.</h2>
+    <div class="stat-rows">
+      <div class="stat-row reveal">
+        <div class="num">$482B</div>
+        <div class="meta"><div class="lab">global solo travel market in 2024</div><div class="src">Allied Market Research, 2024</div></div>
+      </div>
+      <div class="stat-row reveal d1">
+        <div class="num">74%</div>
+        <div class="meta"><div class="lab">of Gen Z report regular loneliness</div><div class="src">Cigna Loneliness Index, 2023</div></div>
+      </div>
+      <div class="stat-row reveal d2">
+        <div class="num">65%</div>
+        <div class="meta"><div class="lab">of female travelers cite safety as a deterrent</div><div class="src">Solo Female Travelers Network, 2023</div></div>
+      </div>
+      <div class="stat-row reveal d3">
+        <div class="num">54.6%</div>
+        <div class="meta"><div class="lab">of solo travel revenue is now female</div><div class="src">Skift Research, 2024</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="how-head">
+      <div>
+        <span class="eyebrow reveal">How it works</span>
+        <h2 class="reveal d1" style="margin-top:14px;">Three taps to never<br>walk in alone.</h2>
+      </div>
+      <p class="lead reveal d2">No swiping, no waiting on a group chat. Tell us the night, pick from vetted women near you, and she's on her way — every step tracked, you in control the whole time.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="ph"><span data-collage="chatBubbles" data-size="62"></span></div>
+        <div class="num">01</div><h3>Tell us the night</h3>
+        <p>Going out, traveling solo, new in town, or first night out in a while — tell us what tonight is. We match the right Wing Woman to the moment.</p>
+        <div class="tagline"><span data-ico="check" data-color="#5D5821"></span> Takes about 30 seconds</div>
+      </div>
+      <div class="step reveal d1">
+        <div class="ph"><span data-collage="phone" data-size="62"></span></div>
+        <div class="num">02</div><h3>She's on her way</h3>
+        <p>Pick from vetted, certified women near you. She reads your brief before she arrives — within a five-mile radius, minutes away.</p>
+        <div class="tagline"><span data-ico="check" data-color="#5D5821"></span> Online now, minutes away</div>
+      </div>
+      <div class="step reveal d2">
+        <div class="ph"><span data-collage="eye" data-size="62"></span></div>
+        <div class="num">03</div><h3>You're not alone</h3>
+        <p>Live location, timed check-ins, and a real woman in your corner all night. Everything's tracked. You stay in control, start to finish.</p>
+        <div class="tagline"><span data-ico="check" data-color="#5D5821"></span> Witnessed, tracked, yours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APP DEMO ============ -->
+<section class="sec-dark" id="app">
+  <div class="wrap demo">
+    <div class="copy">
+      <span class="eyebrow reveal">The whole night, in your hand</span>
+      <h2 class="reveal d1">Try the app.<br><em>Tap through it.</em></h2>
+      <p class="reveal d2">This is the real thing — book a Wing Woman, read her profile, set the night, and watch a live session run. Go ahead, it's interactive.</p>
+      <div class="reveal d2">
+        <div class="demo-feature">
+          <div class="fi"><span data-collage="rose" data-size="26"></span></div>
+          <div class="ft"><b>Browse vetted women near you</b><span>Tiers, ratings, real bios — pick who fits the night.</span></div>
+        </div>
+        <div class="demo-feature">
+          <div class="fi"><span data-collage="phone" data-size="26"></span></div>
+          <div class="ft"><b>Book in three taps</b><span>When, where, and the vibe. No charge until she arrives.</span></div>
+        </div>
+        <div class="demo-feature">
+          <div class="fi"><span data-collage="shieldRose" data-size="26"></span></div>
+          <div class="ft"><b>Live session, fully tracked</b><span>Map, timed check-ins, chat — and help one tap away.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-col reveal d1">
+      <div id="app-demo-stage"></div>
+      <div class="demo-controls" id="demo-controls"></div>
+      <div class="demo-hint"><span class="live-dot"></span> Live demo · tap any screen to interact</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIERS ============ -->
+<section class="sec-velvet" id="tiers">
+  <div class="wrap">
+    <div class="tiers-head">
+      <span class="eyebrow reveal" style="color:var(--olive);">Meet the Wing Women</span>
+      <h2 class="reveal d1" style="margin-top:14px;">Three tiers. One standard: <em>vetted.</em></h2>
+    </div>
+    <div class="tiers">
+      <div class="tier reveal">
+        <span class="badge" style="background:var(--velvet);">Companion</span>
+        <h3>Social Companion</h3>
+        <div class="price">$49<span> / session</span></div>
+        <p class="blurb">For company that just makes the night easier.</p>
+        <ul>
+          <li><span data-ico="check"></span><span><b>Background-checked</b> &amp; ID-verified</span></li>
+          <li><span data-ico="check"></span><span>Bars, dinners, new-city nights</span></li>
+          <li><span data-ico="check"></span><span>Great conversation, zero pressure</span></li>
+        </ul>
+        <a href="#waitlist" class="btn btn-ghost pick" style="width:100%;justify-content:center;">Get matched</a>
+      </div>
+      <div class="tier feat reveal d1">
+        <span class="feat-flag">Most booked</span>
+        <span class="badge" style="background:var(--coral);">Confidence</span>
+        <h3>Confidence Booster</h3>
+        <div class="price">$79<span> / session</span></div>
+        <p class="blurb">For walking in and owning the room.</p>
+        <ul>
+          <li><span data-ico="check"></span><span>Everything in Companion</span></li>
+          <li><span data-ico="check"></span><span><b>Approach &amp; social coaching</b></span></li>
+          <li><span data-ico="check"></span><span>Trained for nightlife &amp; high-energy rooms</span></li>
+        </ul>
+        <a href="#waitlist" class="btn btn-primary pick" style="width:100%;justify-content:center;">Get matched</a>
+      </div>
+      <div class="tier reveal d2">
+        <span class="badge" style="background:var(--olive);">Certified</span>
+        <h3>Emotional Support</h3>
+        <div class="price">$129<span> / session</span></div>
+        <p class="blurb">For the nights that actually matter.</p>
+        <ul>
+          <li><span data-ico="check"></span><span>Everything in Confidence</span></li>
+          <li><span data-ico="check"></span><span><b>Trauma-informed</b>, licensed background</span></li>
+          <li><span data-ico="check"></span><span>First night out after a breakup, the hard ones</span></li>
+        </ul>
+        <a href="#waitlist" class="btn btn-ghost pick" style="width:100%;justify-content:center;">Get matched</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOUNDER ============ -->
+<section id="founder">
+  <div class="wrap founder">
+    <div class="portrait reveal">
+      <img src="assets/founder-janet.jpg" alt="Janet Speight, founder of Wing Gal">
+      <div class="sticker" style="transform:rotate(-8deg);"><span data-collage="lipstick" data-size="56"></span></div>
+      <div class="tag"><b>Janet Speight</b>Founder, Wing Gal™</div>
+    </div>
+    <div>
+      <span class="eyebrow reveal">Our story</span>
+      <blockquote class="reveal d1" style="margin-top:18px;">"I got tired of canceling my own life. Confidence isn't a personality <span class="pull">a few women are born with</span> — it's a skill you practice, refine, and make your own."</blockquote>
+      <p class="sig reveal d2">Being a Wing Woman is less about strategy and more about awareness — reading the energy in a room, trusting your instincts, knowing when to lean in and when to step back. It's how we create spaces where everyone feels seen, you included. We're starting in Oakland. We're not stopping there.</p>
+      <a href="#waitlist" class="btn btn-primary reveal d2" style="margin-top:26px;">Read the full story <span data-ico="arrowRight"></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOR COMPANIES ============ -->
+<section class="sec-dark cta-band" id="companies" data-screen-label="For companies">
+  <div class="wrap cta-grid">
+    <div class="copy">
+      <span class="eyebrow reveal">For companies</span>
+      <h2 class="reveal d1">Give your female employees <em>a Wing Gal.</em></h2>
+      <p class="body reveal d2">$500/month corporate accounts cover ten employees. Ideal for relocations, business travel, and late-night events — the moments where "we care about you" usually means a Slack message.</p>
+      <a href="#waitlist" class="btn btn-coral reveal d2">Talk to us about corporate accounts</a>
+    </div>
+    <div class="cta-icon reveal d1"><span data-collage="suitcase" data-size="170"></span></div>
+  </div>
+</section>
+
+<!-- ============ BECOME A WING WOMAN ============ -->
+<section class="sec-pink cta-band" id="wingwoman" data-screen-label="Become a Wing Woman">
+  <div class="wrap cta-grid reverse">
+    <div class="cta-icon reveal d1"><span data-collage="heel" data-size="160"></span></div>
+    <div class="copy">
+      <span class="eyebrow reveal">Become a Wing Woman</span>
+      <h2 class="reveal d1">You're not a service provider.</h2>
+      <p class="band-sub reveal d1">You're the reason she went out tonight.</p>
+      <p class="body reveal d2">Certified Wing Women earn meaningful pay for the nights they're already great at. Three-tier training, full vetting, and a community that treats this like the craft it is.</p>
+      <a href="#waitlist" class="btn btn-primary reveal d2">Apply to become a Wing Woman</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAFETY ============ -->
+<section class="sec-dark safety" id="safety">
+  <div class="wrap">
+    <div class="center">
+      <span class="eyebrow reveal">Safety, built in</span>
+      <h2 class="reveal d1" style="color:var(--cream);margin-top:16px;max-width:720px;margin-left:auto;margin-right:auto;">Your safety shouldn't depend on whether your friends are free.</h2>
+    </div>
+    <div class="s-grid">
+      <div class="item reveal"><span data-collage="shieldRose" data-size="50"></span><h3>Vetted &amp; certified</h3><p>Every Wing Woman is background-checked, ID-verified, and trained before she ever shows up.</p></div>
+      <div class="item reveal d1"><span data-ico="navigation" data-size="42" data-color="#F09457"></span><h3>Live location</h3><p>See where she is in real time, the whole night. Share your session with someone you trust.</p></div>
+      <div class="item reveal d2"><span data-ico="clock" data-size="42" data-color="#F09457"></span><h3>Timed check-ins</h3><p>Automatic check-ins keep the night on track. One tap says "I'm good."</p></div>
+      <div class="item reveal d3"><span data-collage="eye" data-size="50"></span><h3>Always witnessed</h3><p>She sees you. Everything's tracked. You stay fully in control, start to finish.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST ============ -->
+<section class="waitlist sec-bone" id="waitlist">
+  <div class="wrap">
+    <span class="eyebrow reveal">Now boarding in Oakland</span>
+    <h2 class="reveal d1">Never wing it alone again.</h2>
+    <p class="sub reveal d2">Join the waitlist. Be first to book a Wing Woman when we open in your city.</p>
+    <p class="launch-note reveal d2"><span class="diamond"></span> We're launching in <em>Oakland</em> first. New cities every quarter.</p>
+    <form class="wl-form reveal d2" id="wl-form" novalidate>
+      <input type="email" id="wl-email" placeholder="you@somewhere.com" autocomplete="email" aria-label="Email address">
+      <select class="wl-city" id="wl-city" aria-label="City">
+        <option value="Oakland">Oakland</option>
+        <option value="San Francisco">San Francisco</option>
+        <option value="Los Angeles">Los Angeles</option>
+        <option value="New York">New York</option>
+        <option value="Chicago">Chicago</option>
+        <option value="Other">Other / not listed</option>
+      </select>
+      <button type="submit" class="btn btn-primary">Join <span data-ico="arrowRight"></span></button>
+    </form>
+    <div class="wl-msg" id="wl-msg">We'll be quiet until we have something worth your night. No spam, no algorithm fatigue.</div>
+    <div class="wl-success" id="wl-success">
+      <div class="chk"><span data-ico="check" data-color="#fff" data-size="26"></span></div>
+      <h3>You're on the list. 🌹</h3>
+      <p>We'll text you the second a Wing Woman is available in your city. Welcome to the sisterhood.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <img src="assets/wing-gal-wordmark-tight.png" alt="Wing Gal" class="brand-img">
+        <p class="blurb">Sisterhood, formalized — vetted, certified, and on demand. Starting in Oakland.</p>
+      </div>
+      <div class="cols">
+        <div class="col"><h4>Product</h4><a href="#how">How it works</a><a href="#app">The app</a><a href="#tiers">Wing Women</a><a href="#safety">Safety</a><a href="#waitlist">Waitlist</a></div>
+        <div class="col"><h4>Company</h4><a href="#founder">Our story</a><a href="#wingwoman">Become a Wing Woman</a><a href="#companies">For companies</a><a href="#market">Why now</a></div>
+        <div class="col"><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Trust &amp; safety</a></div>
+      </div>
+    </div>
+    <div class="legal"><span>© 2026 Wing Gal™. All rights reserved.</span><span>Not a dating app. Not a chatbot. Not an emergency service.</span></div>
+  </div>
+</footer>
+
+<!-- ============ HERO SWITCHER ============ -->
+<div class="hero-switch" id="hero-switch" role="group" aria-label="Preview hero direction">
+  <span class="lab">Hero</span>
+  <div class="opts">
+    <button data-h="a" class="on">A</button>
+    <button data-h="b">B</button>
+    <button data-h="c">C</button>
+  </div>
+  <span class="name" id="hero-name">Editorial split</span>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="app/CollageIcons.jsx"></script>
+<script type="text/babel" src="app/Icons.jsx"></script>
+<script type="text/babel" src="app/Shared.jsx"></script>
+<script type="text/babel" src="app/ScreensDiscovery.jsx"></script>
+<script type="text/babel" src="app/ScreensFlow.jsx"></script>
+<script type="text/babel" src="site.jsx"></script>
+</body>
+</html>

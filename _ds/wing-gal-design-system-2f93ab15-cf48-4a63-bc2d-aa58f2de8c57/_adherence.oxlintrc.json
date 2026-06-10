@@ -1,0 +1,147 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "assets/**",
+              "ui_kits/app/**",
+              "uploads/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Inter|Cormorant Garamond))/i]",
+        "message": "Font not provided by the design system. Available: Inter, Cormorant Garamond."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {},
+    "tokens": [
+      "--accent",
+      "--accent-soft",
+      "--alert",
+      "--bg",
+      "--bone",
+      "--border",
+      "--bubble-gum",
+      "--dirty-martini",
+      "--fg-on-dark",
+      "--fg1",
+      "--fg2",
+      "--fg3",
+      "--ink",
+      "--negroni",
+      "--paper",
+      "--peaches-and-cream",
+      "--primary",
+      "--r-lg",
+      "--r-md",
+      "--r-pill",
+      "--r-sm",
+      "--r-xl",
+      "--sand",
+      "--sans",
+      "--serif-display",
+      "--shadow-card",
+      "--shadow-phone",
+      "--shadow-raised",
+      "--sp-1",
+      "--sp-10",
+      "--sp-2",
+      "--sp-3",
+      "--sp-4",
+      "--sp-5",
+      "--sp-6",
+      "--sp-8",
+      "--spritz",
+      "--surface",
+      "--surface-alt",
+      "--velvet",
+      "--white"
+    ],
+    "tokenKinds": {
+      "--peaches-and-cream": "color",
+      "--dirty-martini": "color",
+      "--spritz": "color",
+      "--sand": "color",
+      "--velvet": "color",
+      "--bubble-gum": "color",
+      "--negroni": "color",
+      "--ink": "color",
+      "--paper": "color",
+      "--bone": "color",
+      "--white": "color",
+      "--fg1": "color",
+      "--fg2": "color",
+      "--fg3": "color",
+      "--fg-on-dark": "color",
+      "--bg": "color",
+      "--surface": "color",
+      "--surface-alt": "color",
+      "--border": "color",
+      "--primary": "color",
+      "--accent": "color",
+      "--accent-soft": "color",
+      "--alert": "color",
+      "--serif-display": "other",
+      "--sans": "other",
+      "--r-sm": "spacing",
+      "--r-md": "spacing",
+      "--r-lg": "spacing",
+      "--r-xl": "spacing",
+      "--r-pill": "spacing",
+      "--shadow-card": "shadow",
+      "--shadow-raised": "shadow",
+      "--shadow-phone": "shadow",
+      "--sp-1": "spacing",
+      "--sp-2": "spacing",
+      "--sp-3": "spacing",
+      "--sp-4": "spacing",
+      "--sp-5": "spacing",
+      "--sp-6": "spacing",
+      "--sp-8": "spacing",
+      "--sp-10": "spacing"
+    },
+    "fontFamilies": [
+      "Cormorant Garamond",
+      "Inter"
+    ]
+  }
+}

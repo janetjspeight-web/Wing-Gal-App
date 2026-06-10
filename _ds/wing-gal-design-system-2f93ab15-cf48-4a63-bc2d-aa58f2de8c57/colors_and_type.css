@@ -1,0 +1,212 @@
+/* ============================================================
+   WING GAL™ — Design Tokens: Color + Type
+   Editorial-feminine. Warm. Hand-cut collage.
+   Import this file, then use the CSS vars below.
+   ============================================================ */
+
+/* Inter — self-hosted variable fonts (brand-uploaded). */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/Inter-VariableFont_opsz_wght.ttf") format("truetype-variations");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("fonts/Inter-Italic-VariableFont_opsz_wght.ttf") format("truetype-variations");
+}
+
+/* Cormorant Garamond — self-hosted variable fonts (brand-uploaded). */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("fonts/CormorantGaramond-VariableFont_wght.ttf") format("truetype-variations");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("fonts/CormorantGaramond-Italic-VariableFont_wght.ttf") format("truetype-variations");
+}
+
+:root {
+  /* ---------- CANONICAL BRAND PALETTE ---------- */
+  --peaches-and-cream: #F5CBAF; /* page background everywhere */
+  --dirty-martini:     #5D5821; /* primary CTA fills, immersive dark sections */
+  --spritz:            #F09457; /* warm highlights, italic accents, eyebrow labels */
+  --sand:              #D6CBB6; /* card surfaces, dividers, borders */
+  --velvet:            #B9A7AC; /* secondary accents, soft sections */
+  --bubble-gum:        #F8AFB8; /* warm pops, soft tints */
+  --negroni:           #FE4213; /* RESERVED — urgency / SOS only */
+  --ink:               #3A3520; /* warm near-black body text */
+
+  /* ---------- DERIVED SURFACES ---------- */
+  --paper:  #EFD9C2; /* slightly deeper peach — cards on background */
+  --bone:   #FAEAD8; /* lighter peach — raised surfaces, phone screen */
+  --white:  #FFFFFF; /* clean card fill (used widely in app lists) */
+
+  /* ---------- SEMANTIC FOREGROUND ---------- */
+  --fg1: #3A3520;            /* primary text (ink) */
+  --fg2: rgba(58,53,32,0.66);/* secondary text */
+  --fg3: rgba(58,53,32,0.40);/* tertiary / captions */
+  --fg-on-dark: #F5CBAF;     /* text on dirty-martini sections */
+
+  /* ---------- SEMANTIC ROLES ---------- */
+  --bg:           var(--peaches-and-cream);
+  --surface:      var(--white);
+  --surface-alt:  var(--bone);
+  --border:       var(--sand);
+  --primary:      var(--dirty-martini); /* button fills, anchors */
+  --accent:       var(--spritz);        /* highlights, eyebrows, stars */
+  --accent-soft:  var(--bubble-gum);
+  --alert:        var(--negroni);       /* SOS only */
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --serif-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans:          "Inter", system-ui, -apple-system, sans-serif;
+
+  /* ---------- RADII ---------- */
+  --r-sm: 10px;   /* chips, small fields */
+  --r-md: 14px;   /* inputs, info cards */
+  --r-lg: 20px;   /* primary cards */
+  --r-xl: 44px;   /* phone screen */
+  --r-pill: 999px;/* buttons, filter chips, avatars */
+
+  /* ---------- SHADOWS ---------- */
+  --shadow-card:   0 1px 2px rgba(58,53,32,0.04);
+  --shadow-raised: 0 8px 24px -12px rgba(58,53,32,0.25);
+  --shadow-phone:  0 40px 80px -20px rgba(58,53,32,0.40), 0 20px 40px -20px rgba(58,53,32,0.30);
+
+  /* ---------- SPACING (4px base) ---------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+}
+
+/* ============================================================
+   SEMANTIC TYPE CLASSES
+   ============================================================ */
+
+.wg-eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Display headlines — serif, tight, italic accents allowed */
+.wg-display {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 1.02;
+  letter-spacing: -1.5px;
+  color: var(--fg1);
+}
+.wg-h1 {
+  font-family: var(--serif-display);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  color: var(--fg1);
+}
+.wg-h2 {
+  font-family: var(--serif-display);
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  color: var(--fg1);
+}
+/* Italic spritz accent — the editorial "wink" */
+.wg-accent-italic {
+  font-style: italic;
+  color: var(--accent);
+}
+
+/* Body */
+.wg-body {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--fg1);
+}
+.wg-body-sm {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--fg2);
+}
+.wg-caption {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--fg3);
+}
+
+/* Numbers / stats — Inter, large, tabular */
+.wg-stat {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 32px;
+  letter-spacing: -1px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg1);
+}
+
+/* ============================================================
+   PRIMITIVES
+   ============================================================ */
+
+.wg-btn {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: var(--r-pill);
+  padding: 18px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+.wg-btn:active { transform: scale(0.98); }
+.wg-btn-primary { background: var(--primary); color: #fff; }
+.wg-btn-primary:hover { filter: brightness(1.08); }
+.wg-btn-cream { background: var(--peaches-and-cream); color: var(--dirty-martini); }
+.wg-btn-alert { background: var(--alert); color: #fff; font-weight: 700; letter-spacing: 0.5px; }
+
+.wg-chip {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  background: var(--white);
+  color: var(--ink);
+  border: 1px solid var(--sand);
+  white-space: nowrap;
+}
+.wg-chip-active { background: var(--ink); color: var(--peaches-and-cream); border-color: var(--ink); }
+
+.wg-card {
+  background: var(--white);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-lg);
+  padding: 16px;
+}
