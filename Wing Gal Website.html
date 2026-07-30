@@ -262,23 +262,16 @@
   footer .top{display:flex;justify-content:space-between;gap:48px;flex-wrap:wrap;}
   footer .brand-img{height:40px;filter:brightness(0) invert(1);opacity:.95;}
   footer .blurb{font-size:14px;color:rgba(245,203,175,.7);max-width:300px;margin-top:16px;line-height:1.55;}
+  footer .foot-social{display:flex;align-items:center;gap:12px;margin-top:20px;}
+  footer .foot-social a{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(245,203,175,.1);border:1px solid rgba(245,203,175,.25);color:var(--cream);transition:background .2s,transform .15s,border-color .2s;}
+  footer .foot-social a:hover{background:rgba(245,203,175,.2);border-color:rgba(245,203,175,.45);transform:translateY(-2px);}
   footer .cols{display:flex;gap:72px;flex-wrap:wrap;}
   footer .col h4{font-family:var(--sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--coral);margin:0 0 16px;}
   footer .col a{display:block;font-size:14px;color:rgba(245,203,175,.8);margin-bottom:11px;transition:color .15s;}
   footer .col a:hover{color:#fff;}
   footer .legal{margin-top:54px;font-size:12px;color:rgba(245,203,175,.5);border-top:1px solid rgba(245,203,175,.15);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 
-  /* ---------- HERO SWITCHER (design-review control) ---------- */
-  .hero-switch{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:200;
-    background:var(--ink);color:var(--cream);border-radius:999px;padding:7px 9px 7px 16px;
-    display:flex;align-items:center;gap:12px;box-shadow:0 18px 40px -16px rgba(58,53,32,.7);font-size:12px;}
-  .hero-switch .lab{font-weight:700;letter-spacing:1.5px;text-transform:uppercase;font-size:10px;color:rgba(245,203,175,.7);}
-  .hero-switch .opts{display:flex;gap:4px;}
-  .hero-switch button{font-family:inherit;font-size:12px;font-weight:600;width:34px;height:32px;border-radius:999px;border:none;background:transparent;color:var(--cream);cursor:pointer;transition:all .15s;}
-  .hero-switch button.on{background:var(--coral);color:#fff;}
-  .hero-switch button:hover:not(.on){background:rgba(245,203,175,.16);}
-  .hero-switch .name{font-style:italic;font-family:var(--serif);font-size:15px;min-width:118px;}
-
+  
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
   @keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(47,156,110,.5);}70%{box-shadow:0 0 0 9px rgba(47,156,110,0);}100%{box-shadow:0 0 0 0 rgba(47,156,110,0);}}
 
@@ -304,7 +297,7 @@
   }
 </style>
 </head>
-<body data-hero="a">
+<body data-hero="b">
 
 <!-- ============ NAV ============ -->
 <nav>
@@ -656,7 +649,7 @@
     <div class="top">
       <div>
         <img src="assets/wing-gal-wordmark-tight.png" alt="Wing Gal" class="brand-img">
-        <p class="blurb">Sisterhood, formalized — vetted, certified, and on-demand. Starting in Oakland.</p><div class="foot-social"><a href="https://www.tiktok.com/@wing_gal" target="_blank" rel="noopener" aria-label="TikTok">TikTok</a><a href="https://www.instagram.com/winggal.usa?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a><a href="mailto:info@wing-gal.com" aria-label="Email">Email</a></div>
+                <p class="blurb">Sisterhood, formalized — vetted, certified, and on-demand. Starting in Oakland.</p>p><div class="foot-social"><a href="https://www.tiktok.com/@wing_gal" target="_blank" rel="noopener" aria-label="TikTok"><span data-ico="tiktok" data-size="18"></span></a><a href="https://www.instagram.com/winggal.usa?utm_source=ig_web_button_share_sheet&amp;igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" aria-label="Instagram"><span data-ico="instagram" data-size="18"></span></a><a href="mailto:info@wing-gal.com" aria-label="Email"><span data-ico="mail" data-size="18"></span></a></div>
       </div>
       <div class="cols">
         <div class="col"><h4>Product</h4><a href="#how">How it works</a><a href="#app">The app</a><a href="#tiers">Wing Women</a><a href="#safety">Safety</a><a href="#waitlist">Waitlist</a></div>
@@ -668,16 +661,6 @@
   </div>
 </footer>
 
-<!-- ============ HERO SWITCHER ============ -->
-<div class="hero-switch" id="hero-switch" role="group" aria-label="Preview hero direction">
-  <span class="lab">Hero</span>
-  <div class="opts">
-    <button data-h="a" class="on">A</button>
-    <button data-h="b">B</button>
-    <button data-h="c">C</button>
-  </div>
-  <span class="name" id="hero-name">Editorial split</span>
-</div>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
