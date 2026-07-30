@@ -34,25 +34,6 @@
     document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
   }
 
-  /* ---------- 3. Hero direction switcher ---------- */
-  function initHeroSwitch() {
-    const NAMES = { a: 'Editorial split', b: 'Full-bleed image', c: 'Type-forward' };
-    const sw = document.getElementById('hero-switch');
-    const nameEl = document.getElementById('hero-name');
-    sw.querySelectorAll('button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const h = btn.getAttribute('data-h');
-        document.body.setAttribute('data-hero', h);
-        sw.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b === btn));
-        nameEl.textContent = NAMES[h];
-        // re-mount any icons that were in a hidden panel + reveal them
-        mountIcons();
-        document.querySelectorAll('#hero-' + h + ' .reveal').forEach((el) => el.classList.add('in'));
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-  }
-
   /* ---------- 4. Working waitlist form ---------- */
   function initWaitlist() {
     const form = document.getElementById('wl-form');
@@ -141,7 +122,6 @@
   function boot() {
     mountIcons();
     initReveal();
-    initHeroSwitch();
     initWaitlist();
     const stage = document.getElementById('app-demo-stage');
     if (stage) {
