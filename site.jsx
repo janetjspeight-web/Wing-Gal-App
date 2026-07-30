@@ -54,10 +54,19 @@
         email.focus();
         return;
       }
-      form.style.display = 'none';
-      msg.style.display = 'none';
-      success.classList.add('show');
-    });
+
+          const btn = form.querySelector('button[type=submit]');
+          if (btn) btn.disabled = true;
+          fetch('https://app.kit.com/forms/9743797/subscriptions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ email_address: email.value.trim() }) }).then(() => {
+                    form.style.display = 'none';
+                    msg.style.display = 'none';
+                    success.classList.add('show');
+          }).catch(() => {
+                    msg.classList.add('error');
+                    msg.textContent = 'Something went wrong. Please try again in a moment.';
+                    if (btn) btn.disabled = false;
+          });
+          });
   }
 
   /* ---------- 5. Embedded interactive app demo ---------- */
